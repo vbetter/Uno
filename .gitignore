@@ -1,6 +1,10 @@
 # Build and Release Folders
 Library/
 Temp/
+Uno.CSharp.csproj
+Uno.CSharp.Editor.csproj
+Uno.sln
+
 [Oo]bj/ # FlashDevelop obj
 [Bb]in/ # FlashDevelop bin
 
