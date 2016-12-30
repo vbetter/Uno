@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 /// <summary>
 /// 卡牌颜色
@@ -26,15 +27,25 @@ public enum ENUM_CARD_TYPE
     WILD
 }
 
+[System.Serializable]
+public struct CardStruct
+{
+    public int CardColor;
+    public int CardType;
+    public uint CardNumber;
+    public string CardName;
+    public uint UID;//卡片唯一id
+}
+
+public class SyncListCardItem : SyncListStruct<CardStruct> { }
+
 public class Card
 {
     #region 变量
 
-    public ENUM_CARD_COLOR CardColor = ENUM_CARD_COLOR.NONE;
-    public ENUM_CARD_TYPE CardType = ENUM_CARD_TYPE.NONE;
-    public uint CardNumber;
+    public CardStruct MyCardStruct = new CardStruct();
+
     public bool HasEffect = true;//有效果
-    public uint UID;//卡片唯一id
 
     #endregion
 
@@ -73,14 +84,12 @@ public class Card
         return false;
     }
 
-    public void Init()
+    public virtual void Init(CardStruct value)
     {
-        UID = UID_Counter;
-        UID_Counter++;
-
-        InitCardName(ref CardName);
+        MyCardStruct = value;
     }
 
+    /*
     public string CardName;
     public void InitCardName(ref string cardName)
     {
@@ -108,28 +117,5 @@ public class Card
         }
     }
 
-    public static string GetColorString(ENUM_CARD_COLOR color)
-    {
-        string colorstring = "";
-        switch (color)
-        {
-            case ENUM_CARD_COLOR.NONE:
-                break;
-            case ENUM_CARD_COLOR.RED:
-                colorstring = "红色";
-                break;
-            case ENUM_CARD_COLOR.YELLOW:
-                colorstring = "黄色";
-                break;
-            case ENUM_CARD_COLOR.BLUE:
-                colorstring = "蓝色";
-                break;
-            case ENUM_CARD_COLOR.GREEN:
-                colorstring = "绿色";
-                break;
-            default:
-                break;
-        }
-        return colorstring;
-    }
+     */
 }

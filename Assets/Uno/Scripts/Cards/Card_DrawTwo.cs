@@ -8,16 +8,9 @@ public class Card_DrawTwo : Card {
 	
 	}
 
-    public void Init(ENUM_CARD_COLOR color)
-    {
-        CardColor = color;
-        CardType = ENUM_CARD_TYPE.DRAWTWO;
-        base.Init();
-    }
-
     public override bool CanPlayCard(Card lastCard)
     {
-        switch (lastCard.CardType)
+        switch ((ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType)
         {
             case ENUM_CARD_TYPE.NONE:
                 break;

@@ -8,22 +8,21 @@ public class Card_Number : Card {
 	
 	}
 	
-	public void Init(uint value ,ENUM_CARD_COLOR color)
-    {
-        CardNumber = value;
-        CardColor = color;
-        CardType = ENUM_CARD_TYPE.NUMBER;
-        base.Init();
-    }
 
     public override bool CanPlayCard(Card lastCard)
     {
-        switch (lastCard.CardType)
+        ENUM_CARD_TYPE CardColor = (ENUM_CARD_TYPE)MyCardStruct.CardType;
+        ENUM_CARD_TYPE LastCardColor = (ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType;
+
+        uint CardNumber = MyCardStruct.CardNumber;
+        uint LastCardNumber = lastCard.MyCardStruct.CardNumber;
+
+        switch ((ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType)
         {
             case ENUM_CARD_TYPE.NONE:
                 break;
             case ENUM_CARD_TYPE.NUMBER:
-                if (CardNumber == lastCard.CardNumber || CardColor == lastCard.CardColor) return true;
+                if (CardNumber == LastCardNumber || CardColor == LastCardColor) return true;
                 break;
             case ENUM_CARD_TYPE.PASS:
                 if (!lastCard.HasEffect) return true;
@@ -32,10 +31,10 @@ public class Card_Number : Card {
                 if (!lastCard.HasEffect) return true;
                 break;
             case ENUM_CARD_TYPE.DRAWTWO:
-                if (!lastCard.HasEffect && lastCard.CardColor == CardColor) return true;
+                if (!lastCard.HasEffect && LastCardColor == CardColor) return true;
                 break;
             case ENUM_CARD_TYPE.WILD:
-                if (!lastCard.HasEffect && lastCard.CardColor == CardColor) return true;
+                if (!lastCard.HasEffect && LastCardColor == CardColor) return true;
                 break;
             default:
                 break;

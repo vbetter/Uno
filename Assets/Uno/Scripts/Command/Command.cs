@@ -76,11 +76,13 @@ public class ShuffleCommand : Command
 
     public override bool Execute()
     {
+        /*
         List<Card> cardList = _cardsMgr.OpenCardList;
         for (int i = (int)CardsMgr.MaxCardNumb - 1; i >= 1; i--)
         {
             mySwap(i, (int)Random.Range(0, 100000) % ((int)CardsMgr.MaxCardNumb - i), ref cardList);
         }
+         */
         return base.Execute();
     }
 
@@ -107,6 +109,7 @@ public class SupplementCommand : Command
 
         public override bool Execute()
         {
+            /*
             for (int i = _cardsMgr.CloseCardList.Count - 1; i >= 0; i--)
             {
                 Card card = _cardsMgr.CloseCardList[i];
@@ -114,6 +117,7 @@ public class SupplementCommand : Command
                 _cardsMgr.OpenCardList.Add(card);
             }
 
+             */
             return base.Execute();
         }
     }
@@ -151,6 +155,7 @@ public class InitCardCommand : Command
 
     public override bool Execute()
     {
+        /*
         List<Card> openCardList = _cardsMgr.OpenCardList;
 
         for (int j = 1; j <= CardsMgr.MaxColorNumber; j++)
@@ -189,6 +194,7 @@ public class InitCardCommand : Command
             cardWild.Init(myColor);
             openCardList.Add(cardWild);
         }
+         */
         return base.Execute();
     }
 }

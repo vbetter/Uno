@@ -19,7 +19,7 @@ public class UIMyCards : MonoBehaviour {
 	
 	}
 
-    public void AddCard(Card card)
+    public void AddCard(CardStruct card)
     {
         GameObject go = GameObject.Instantiate(ResUICard) as GameObject;
 
@@ -32,16 +32,16 @@ public class UIMyCards : MonoBehaviour {
         _grid.Reposition();
     }
 
-    public void AddCard(List<Card> cardList)
+    public void AddCard(List<CardStruct> cardList)
     {
         for (int i = 0; i < cardList.Count; i++)
         {
-            Card card = cardList[i];
+            CardStruct card = cardList[i];
             AddCard(card);
         }
     }
 
-    public void RemoveCard(Card card)
+    public void RemoveCard(CardStruct card)
     {
         UICard uicard = _cardsList.Find(a => a.UID == card.UID);
         if(uicard!=null)

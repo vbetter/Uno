@@ -8,21 +8,17 @@ public class Card_Pass : Card {
 	
 	}
 
-    public void Init(ENUM_CARD_COLOR color)
-    {
-        CardColor = color;
-        CardType = ENUM_CARD_TYPE.PASS;
-        base.Init();
-    }
-
     public override bool CanPlayCard(Card lastCard)
     {
-        switch (lastCard.CardType)
+        ENUM_CARD_TYPE CardColor = (ENUM_CARD_TYPE)MyCardStruct.CardType;
+        ENUM_CARD_TYPE LastCardColor = (ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType;
+
+        switch ((ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType)
         {
             case ENUM_CARD_TYPE.NONE:
                 break;
             case ENUM_CARD_TYPE.NUMBER:
-                if (CardColor == lastCard.CardColor) return true;
+                if (CardColor == LastCardColor) return true;
                 break;
             case ENUM_CARD_TYPE.PASS:
                 if (!lastCard.HasEffect) return true;
@@ -31,10 +27,10 @@ public class Card_Pass : Card {
                 if (!lastCard.HasEffect) return true;
                 break;
             case ENUM_CARD_TYPE.DRAWTWO:
-                if (!lastCard.HasEffect && lastCard.CardColor == CardColor) return true;
+                if (!lastCard.HasEffect && LastCardColor == CardColor) return true;
                 break;
             case ENUM_CARD_TYPE.WILD:
-                if (!lastCard.HasEffect && lastCard.CardColor == CardColor) return true;
+                if (!lastCard.HasEffect && LastCardColor == CardColor) return true;
                 break;
             default:
                 break;

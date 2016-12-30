@@ -19,19 +19,9 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public Color color;
 
-    List<Card> _haveCards = new List<Card>();  //手牌
+    //List<Card> _haveCards = new List<Card>();  //手牌
 
-    public List<Card> HaveCards
-    {
-        set
-        {
-            _haveCards = value;
-        }
-        get
-        {
-            return _haveCards;
-        }
-    }
+    public SyncListCardItem HaveCards = new SyncListCardItem();
 
     void Awake()
     {
@@ -50,13 +40,13 @@ public class Player : NetworkBehaviour
     }
 	
     [Server]
-    public void server_AddCard(List<Card>cards)
+    public void server_AddCard(List<CardStruct> cards)
     {
         Debug.Log("1");
         //摸牌
         for (int i = 0; i < cards.Count; i++)
         {
-            Card card = cards[i];
+            CardStruct card = cards[i];
             HaveCards.Add(card);
         }
     }
@@ -72,7 +62,7 @@ public class Player : NetworkBehaviour
     public void LocalAddCard()
     {
         Debug.Log("LocalAddCard:"+HaveCards.Count);
-        MyUIMain._UIMyCards.AddCard(HaveCards);
+        //MyUIMain._UIMyCards.AddCard(HaveCards);
 
     }
 
