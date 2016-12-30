@@ -4,6 +4,9 @@ Temp/
 Uno.CSharp.csproj
 Uno.CSharp.Editor.csproj
 Uno.sln
+uno_Data
+uno.exe
+Uno.v12.suo
 
 [Oo]bj/ # FlashDevelop obj
 [Bb]in/ # FlashDevelop bin

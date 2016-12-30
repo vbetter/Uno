@@ -32,7 +32,7 @@ public class UIMyCards : MonoBehaviour {
         _grid.Reposition();
     }
 
-    public void AddCard(List<CardStruct> cardList)
+    public void AddCard(SyncListCardItem cardList)
     {
         for (int i = 0; i < cardList.Count; i++)
         {

@@ -19,9 +19,7 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public Color color;
 
-    //List<Card> _haveCards = new List<Card>();  //手牌
-
-    public SyncListCardItem HaveCards = new SyncListCardItem();
+    public SyncListCardItem HaveCards = new SyncListCardItem();//手牌
 
     void Awake()
     {
@@ -42,28 +40,25 @@ public class Player : NetworkBehaviour
     [Server]
     public void server_AddCard(List<CardStruct> cards)
     {
-        Debug.Log("1");
+        Debug.Log("cards count:" + cards.Count);
         //摸牌
         for (int i = 0; i < cards.Count; i++)
         {
             CardStruct card = cards[i];
             HaveCards.Add(card);
         }
+
+        Rpc_AddCard();
     }
 
     [ClientRpc]
     public void Rpc_AddCard()
     {
-        LocalAddCard();
-        
-    }
-
-    [Client]
-    public void LocalAddCard()
-    {
-        Debug.Log("LocalAddCard:"+HaveCards.Count);
-        //MyUIMain._UIMyCards.AddCard(HaveCards);
-
+        if(isLocalPlayer)
+        {
+            Debug.Log("Rpc_AddCard HaveCards.Count:" + HaveCards.Count);
+            MyUIMain._UIMyCards.AddCard(HaveCards);
+        }        
     }
 
     [Command]
@@ -91,10 +86,7 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdDealCards()
     {
-        if(!isClient)
         NetworkGameMgr.Instance.ServerDealCard();
-
-        Rpc_AddCard();
     }
 
 }
