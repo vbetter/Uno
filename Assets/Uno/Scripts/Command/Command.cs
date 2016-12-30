@@ -76,17 +76,16 @@ public class ShuffleCommand : Command
 
     public override bool Execute()
     {
-        /*
-        List<Card> cardList = _cardsMgr.OpenCardList;
-        for (int i = (int)CardsMgr.MaxCardNumb - 1; i >= 1; i--)
+        List<CardStruct> cardList = _cardsMgr.OpenCardList;
+        for (int i = (int)cardList.Count - 1; i >= 1; i--)
         {
             mySwap(i, (int)Random.Range(0, 100000) % ((int)CardsMgr.MaxCardNumb - i), ref cardList);
         }
-         */
+
         return base.Execute();
     }
 
-    void mySwap(int x, int y, ref List<Card> list)
+    void mySwap(int x, int y, ref List<CardStruct> list)
     {
         var temp = list[x];
         list[x] = list[y];
@@ -109,15 +108,13 @@ public class SupplementCommand : Command
 
         public override bool Execute()
         {
-            /*
             for (int i = _cardsMgr.CloseCardList.Count - 1; i >= 0; i--)
             {
-                Card card = _cardsMgr.CloseCardList[i];
+                CardStruct card = _cardsMgr.CloseCardList[i];
                 _cardsMgr.CloseCardList.Remove(card);
                 _cardsMgr.OpenCardList.Add(card);
             }
 
-             */
             return base.Execute();
         }
     }
@@ -155,8 +152,7 @@ public class InitCardCommand : Command
 
     public override bool Execute()
     {
-        /*
-        List<Card> openCardList = _cardsMgr.OpenCardList;
+        List<CardStruct> OpenCardList = _cardsMgr.OpenCardList;
 
         for (int j = 1; j <= CardsMgr.MaxColorNumber; j++)
         {
@@ -168,33 +164,51 @@ public class InitCardCommand : Command
                 //创建普通牌
                 for (uint i = 0; i < 10; i++)
                 {
-                    Card_Number cardNumber = Card.Create<Card_Number>(ENUM_CARD_TYPE.NUMBER);
-                    cardNumber.Init(i, myColor);
-                    openCardList.Add(cardNumber);
+                    CardStruct card = new CardStruct();
+                    card.CardNumber = i;
+                    card.CardColor = j;
+                    card.CardType = (int)ENUM_CARD_TYPE.NUMBER;
+                    OpenCardList.Add(card);
                 }
 
                 //创建跳过牌
-                Card_Pass cardPass = Card.Create<Card_Pass>(ENUM_CARD_TYPE.PASS);
-                cardPass.Init(myColor);
-                openCardList.Add(cardPass);
+                {
+                    CardStruct card = new CardStruct();
+                    card.CardType = (int)ENUM_CARD_TYPE.PASS;
+                    card.CardColor = j;
+                    OpenCardList.Add(card);
+                }
 
                 //创建翻转牌
-                Card_Flip cardFlip = Card.Create<Card_Flip>(ENUM_CARD_TYPE.FLIP);
-                cardFlip.Init(myColor);
-                openCardList.Add(cardFlip);
+                {
+                    CardStruct card = new CardStruct();
+                    card.CardType = (int)ENUM_CARD_TYPE.FLIP;
+                    card.CardColor = j;
+                    OpenCardList.Add(card);
+                }
+            }
 
-                //创建drawtwo
-                Card_DrawTwo cardDrawTwo = Card.Create<Card_DrawTwo>(ENUM_CARD_TYPE.DRAWTWO);
-                cardDrawTwo.Init(myColor);
-                openCardList.Add(cardDrawTwo);
+            //创建drawtwo,总共4张
+            {
+                CardStruct card = new CardStruct();
+                card.CardType = (int)ENUM_CARD_TYPE.DRAWTWO;
+                OpenCardList.Add(card);
             }
 
             //创建万能牌，总共4张
-            Card_Wild cardWild = Card.Create<Card_Wild>(ENUM_CARD_TYPE.WILD);
-            cardWild.Init(myColor);
-            openCardList.Add(cardWild);
+            {
+                CardStruct card = new CardStruct();
+                card.CardType = (int)ENUM_CARD_TYPE.WILD;
+                OpenCardList.Add(card);
+            }
         }
-         */
+
+        for (int j = 0; j < OpenCardList.Count; j++)
+        {
+            CardStruct item = OpenCardList[j];
+            item.UID = (uint)j;
+        }
+
         return base.Execute();
     }
 }

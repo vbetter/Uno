@@ -9,6 +9,10 @@ public class UIMain : MonoBehaviour {
     [SerializeField]
     GameObject _btn_playCard , _btn_getCard,_btn_deal;
 
+    [SerializeField]
+    UIPlayer _UIPlayer;
+
+
 	// Use this for initialization
 	void Start () {
 	
@@ -31,5 +35,10 @@ public class UIMain : MonoBehaviour {
             Debug.Log("_btn_deal");
             Utils.ClientLocalPlayer().CmdDealCards();
         };
+    }
+
+    public void SetActiveDealBtn(bool value)
+    {
+        _btn_deal.SetActive(value);
     }
 }

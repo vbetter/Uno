@@ -74,7 +74,6 @@ public class NetworkGameMgr : NetworkBehaviour
     void InitWithServer()
     {
         _cardsMgr.Init();
-        _cardsMgr.SupplementCards();
     }
 
     [Server]

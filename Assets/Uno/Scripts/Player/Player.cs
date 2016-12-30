@@ -33,8 +33,9 @@ public class Player : NetworkBehaviour
 
     public void Init()
     {
-        if (isLocalPlayer)
-            MyUIMain.Init();
+        MyUIMain.Init();
+
+        MyUIMain.SetActiveDealBtn(isServer);
     }
 	
     [Server]
