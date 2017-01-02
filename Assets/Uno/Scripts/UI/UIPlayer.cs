@@ -24,6 +24,7 @@ public class UIPlayer : MonoBehaviour {
 	
     public void Init(string playerName,string iconName)
     {
-
+        _label_name.text = playerName;
+        _sp_icon.spriteName = iconName;
     }
 }

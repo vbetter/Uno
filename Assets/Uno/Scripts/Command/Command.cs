@@ -79,7 +79,7 @@ public class ShuffleCommand : Command
         List<CardStruct> cardList = _cardsMgr.OpenCardList;
         for (int i = (int)cardList.Count - 1; i >= 1; i--)
         {
-            mySwap(i, (int)Random.Range(0, 100000) % ((int)CardsMgr.MaxCardNumb - i), ref cardList);
+            mySwap(i, (int)Random.Range(0, 100000) % ((int)cardList.Count - i), ref cardList);
         }
 
         return base.Execute();

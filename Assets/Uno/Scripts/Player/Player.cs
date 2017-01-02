@@ -21,6 +21,8 @@ public class Player : NetworkBehaviour
 
     public SyncListCardItem HaveCards = new SyncListCardItem();//手牌
 
+    public int IconIndex = 0;//用于头像显示
+
     void Awake()
     {
         NetworkGameMgr._players.Add(this);
@@ -31,13 +33,16 @@ public class Player : NetworkBehaviour
         
     }
 
+    [Client]
     public void Init()
     {
         MyUIMain.Init();
 
         MyUIMain.SetActiveDealBtn(isServer);
     }
-	
+
+
+
     [Server]
     public void server_AddCard(List<CardStruct> cards)
     {

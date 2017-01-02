@@ -22,7 +22,7 @@ public class UIMyCards : MonoBehaviour {
     public void AddCard(CardStruct card)
     {
         GameObject go = GameObject.Instantiate(ResUICard) as GameObject;
-
+        go.SetActive(true);
         _grid.AddChild(go.transform);
         go.transform.localScale = Vector3.one;
         UICard uicard = go.GetComponent<UICard>();

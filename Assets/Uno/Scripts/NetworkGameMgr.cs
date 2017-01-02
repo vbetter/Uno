@@ -65,6 +65,7 @@ public class NetworkGameMgr : NetworkBehaviour
         for (int i = 0; i < _players.Count; i++)
         {
             Player player = _players[i];
+            player.IconIndex = i + 1;
             player.Init();
         }
         //Debug.Log("card count:" + _players[0].HaveCards.Count);
@@ -87,6 +88,7 @@ public class NetworkGameMgr : NetworkBehaviour
 
             List<CardStruct> cardList = _cardsMgr.GetCards(INIT_HAVE_CARDS_NUMB);
             player.server_AddCard(cardList);
+            player.Rpc_Init();
         }
     }
 }

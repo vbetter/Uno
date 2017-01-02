@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class UIMain : MonoBehaviour {
 
@@ -11,6 +13,9 @@ public class UIMain : MonoBehaviour {
 
     [SerializeField]
     UIPlayer _UIPlayer;
+
+    [SerializeField]
+    UIGrid _playerGrid;
 
 
 	// Use this for initialization
@@ -35,6 +40,27 @@ public class UIMain : MonoBehaviour {
             Debug.Log("_btn_deal");
             Utils.ClientLocalPlayer().CmdDealCards();
         };
+
+        InitUIPlayers();
+    }
+
+    void InitUIPlayers()
+    {
+        Debug.Log("NetworkGameMgr._players.Count ： "+ NetworkGameMgr._players.Count);
+
+        for (int i = 0; i < NetworkGameMgr._players.Count; i++)
+        {
+            Player player = NetworkGameMgr._players[i];
+
+            GameObject go = GameObject.Instantiate(_UIPlayer.gameObject) as GameObject;
+            go.SetActive(true);
+            _playerGrid.AddChild(go.transform);
+            go.transform.localScale = Vector3.one;
+
+            UIPlayer uiplayer = go.GetComponent<UIPlayer>();
+            uiplayer.Init(player.playerName, player.IconIndex.ToString());
+        }
+        _playerGrid.Reposition();
     }
 
     public void SetActiveDealBtn(bool value)
