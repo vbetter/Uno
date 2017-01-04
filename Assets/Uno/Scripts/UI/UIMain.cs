@@ -12,10 +12,10 @@ public class UIMain : MonoBehaviour {
     GameObject _btn_playCard , _btn_getCard,_btn_deal;
 
     [SerializeField]
-    UIPlayer _UIPlayer;
+    public UIPlayer _UIPlayer;
 
     [SerializeField]
-    UIGrid _playerGrid;
+    public UIGrid _playerGrid;
 
 
 	// Use this for initialization
@@ -41,7 +41,7 @@ public class UIMain : MonoBehaviour {
             Utils.ClientLocalPlayer().CmdDealCards();
         };
 
-        InitUIPlayers();
+        //InitUIPlayers();
     }
 
     void InitUIPlayers()
@@ -59,6 +59,7 @@ public class UIMain : MonoBehaviour {
 
             UIPlayer uiplayer = go.GetComponent<UIPlayer>();
             uiplayer.Init(player.playerName, player.IconIndex.ToString());
+            NetworkServer.Spawn(go);
         }
         _playerGrid.Reposition();
     }

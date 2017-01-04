@@ -23,6 +23,10 @@ public class Player : NetworkBehaviour
 
     public int IconIndex = 0;//用于头像显示
 
+    //hard to control WHEN Init is called (networking make order between object spawning non deterministic)
+    //so we call init from multiple location (depending on what between spaceship & manager is created first).
+    protected bool _wasInit = false;
+
     void Awake()
     {
         NetworkGameMgr._players.Add(this);
@@ -30,13 +34,17 @@ public class Player : NetworkBehaviour
 
 	// Use this for initialization
 	void Start () {
-        Init();
+        
     }
 
-    [Client]
     public void Init()
     {
-        if (isLocalPlayer)
+        if (_wasInit)
+            return;
+
+        _wasInit = true;
+
+        if(isLocalPlayer)
         {
             MyUIMain.Init();
 

@@ -11,7 +11,7 @@ public class NetworkLobbyHook : LobbyHook
 
         Player player = gamePlayer.GetComponent<Player>();
         player.name = lobby.name;
-        player.playerName = lobby.name;
+        player.playerName = lobby.playerName;
         player.color = lobby.playerColor;
     }
 }

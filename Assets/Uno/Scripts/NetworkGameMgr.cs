@@ -61,17 +61,54 @@ public class NetworkGameMgr : NetworkBehaviour
 
             Debug.Log("InitWithServer");
         }
-        Debug.Log("NetworkGameMgr._players.Count ： " + NetworkGameMgr._players.Count);
+
+        if (isLocalPlayer)
+        {
+            MyUIMain.Init();
+
+            MyUIMain.SetActiveDealBtn(isServer);
+        }
+
+        StartCoroutine(InitUIPlayers());
+    }
+
+    IEnumerator InitUIPlayers()
+    {
+        yield return new WaitForSeconds(1f);
+
+        Debug.Log("NetworkGameMgr._players.Count ： " + _players.Count);
 
         for (int i = 0; i < _players.Count; i++)
         {
             Player player = _players[i];
             player.IconIndex = i + 1;
-            //player.Init();
+            player.Init();
+            
+            GameObject go = GameObject.Instantiate(MyUIMain._UIPlayer.gameObject) as GameObject;
+            go.SetActive(true);
+            MyUIMain._playerGrid.AddChild(go.transform);
+            go.transform.localScale = Vector3.one;
+
+            UIPlayer uiplayer = go.GetComponent<UIPlayer>();
+            uiplayer.Init(player.playerName, player.IconIndex.ToString());
+            NetworkServer.Spawn(go);
+            
         }
-        Debug.Log("NetworkGameMgr._players.Count ： " + NetworkGameMgr._players.Count);
-        //Debug.Log("card count:" + _players[0].HaveCards.Count);
-        //Debug.Log("player count : " + _players.Count);
+        MyUIMain._playerGrid.Reposition();
+    }
+
+    UIMain _UIMain = null;
+    UIMain MyUIMain
+    {
+        get
+        {
+            if (_UIMain == null)
+            {
+                _UIMain = GameObject.Find("UIMainPanel").GetComponent<UIMain>();
+            }
+
+            return _UIMain;
+        }
     }
 
     [Server]
