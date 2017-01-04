@@ -30,18 +30,30 @@ public class Player : NetworkBehaviour
 
 	// Use this for initialization
 	void Start () {
-        
+        Init();
     }
 
     [Client]
     public void Init()
     {
-        MyUIMain.Init();
+        if (isLocalPlayer)
+        {
+            MyUIMain.Init();
 
-        MyUIMain.SetActiveDealBtn(isServer);
+            MyUIMain.SetActiveDealBtn(isServer);
+        }
     }
 
+    [ClientRpc]
+    public void Rpc_Init()
+    {
+        if (isLocalPlayer)
+        {
+            MyUIMain.Init();
 
+            MyUIMain.SetActiveDealBtn(isServer);
+        }
+    }
 
     [Server]
     public void server_AddCard(List<CardStruct> cards)

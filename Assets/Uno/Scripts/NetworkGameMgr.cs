@@ -51,7 +51,7 @@ public class NetworkGameMgr : NetworkBehaviour
 	void Start () 
     {
         Init();
-	}
+    }
 
     void Init()
     {
@@ -61,20 +61,34 @@ public class NetworkGameMgr : NetworkBehaviour
 
             Debug.Log("InitWithServer");
         }
+        Debug.Log("NetworkGameMgr._players.Count ： " + NetworkGameMgr._players.Count);
 
         for (int i = 0; i < _players.Count; i++)
         {
             Player player = _players[i];
             player.IconIndex = i + 1;
-            player.Init();
+            //player.Init();
         }
+        Debug.Log("NetworkGameMgr._players.Count ： " + NetworkGameMgr._players.Count);
         //Debug.Log("card count:" + _players[0].HaveCards.Count);
         //Debug.Log("player count : " + _players.Count);
     }
 
+    [Server]
     void InitWithServer()
     {
         _cardsMgr.Init();
+
+        /*
+        Debug.Log("NetworkGameMgr._players.Count ： " + NetworkGameMgr._players.Count);
+
+        for (int i = 0; i < _players.Count; i++)
+        {
+            Player player = _players[i];
+            player.IconIndex = i + 1;
+            player.Rpc_Init();
+        }
+        */
     }
 
     [Server]
@@ -87,8 +101,7 @@ public class NetworkGameMgr : NetworkBehaviour
             Player player = _players[i];
 
             List<CardStruct> cardList = _cardsMgr.GetCards(INIT_HAVE_CARDS_NUMB);
-            player.server_AddCard(cardList);
-            player.Rpc_Init();
+            player.server_AddCard(cardList); 
         }
     }
 }
