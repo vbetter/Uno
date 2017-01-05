@@ -25,6 +25,14 @@ public class NetworkGameMgr : NetworkBehaviour
 
     static NetworkGameMgr m_Instance = null;
 
+    public CardsMgr MyCardsMgr
+    {
+        get
+        {
+            return _cardsMgr;
+        }
+    }
+
         /// <summary>
         /// Gets the instance.
         /// </summary>
@@ -84,17 +92,8 @@ public class NetworkGameMgr : NetworkBehaviour
             player.IconIndex = i + 1;
             player.Init();
             
-            GameObject go = GameObject.Instantiate(MyUIMain._UIPlayer.gameObject) as GameObject;
-            go.SetActive(true);
-            MyUIMain._playerGrid.AddChild(go.transform);
-            go.transform.localScale = Vector3.one;
-
-            UIPlayer uiplayer = go.GetComponent<UIPlayer>();
-            uiplayer.Init(player.playerName, player.IconIndex.ToString());
-            NetworkServer.Spawn(go);
-            
+            NetworkServer.Spawn(MyUIMain.InitUIPlayer(player));
         }
-        MyUIMain._playerGrid.Reposition();
     }
 
     UIMain _UIMain = null;
@@ -115,17 +114,6 @@ public class NetworkGameMgr : NetworkBehaviour
     void InitWithServer()
     {
         _cardsMgr.Init();
-
-        /*
-        Debug.Log("NetworkGameMgr._players.Count ： " + NetworkGameMgr._players.Count);
-
-        for (int i = 0; i < _players.Count; i++)
-        {
-            Player player = _players[i];
-            player.IconIndex = i + 1;
-            player.Rpc_Init();
-        }
-        */
     }
 
     [Server]
@@ -140,5 +128,12 @@ public class NetworkGameMgr : NetworkBehaviour
             List<CardStruct> cardList = _cardsMgr.GetCards(INIT_HAVE_CARDS_NUMB);
             player.server_AddCard(cardList); 
         }
+    }
+
+    [Server]
+    public void ServerGetCards(Player player,uint value)
+    {
+        List<CardStruct> cardList = _cardsMgr.GetCards(value);
+        player.server_AddCard(cardList); 
     }
 }

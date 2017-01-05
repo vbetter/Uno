@@ -115,4 +115,15 @@ public class Player : NetworkBehaviour
         NetworkGameMgr.Instance.ServerDealCard();
     }
 
+    [Command]
+    public void CmdGetCards(uint numb)
+    {
+        NetworkGameMgr.Instance.ServerGetCards(this,numb);
+    }
+
+    [Command]
+    public void CmdPlayCards(SyncListCardItem cards)
+    {
+
+    }
 }

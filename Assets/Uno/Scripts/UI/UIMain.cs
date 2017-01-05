@@ -33,35 +33,31 @@ public class UIMain : MonoBehaviour {
         UIEventListener.Get(_btn_getCard.gameObject).onClick = (go) => 
         {
             Debug.Log("_btn_getCard");
+            Utils.ClientLocalPlayer().CmdGetCards(1);
         };
 
         UIEventListener.Get(_btn_deal.gameObject).onClick = (go) =>
         {
-            Debug.Log("_btn_deal");
+            //Debug.Log("_btn_deal");
             Utils.ClientLocalPlayer().CmdDealCards();
         };
-
-        //InitUIPlayers();
     }
 
-    void InitUIPlayers()
+    public GameObject InitUIPlayer(Player player)
     {
-        Debug.Log("NetworkGameMgr._players.Count ： "+ NetworkGameMgr._players.Count);
-
-        for (int i = 0; i < NetworkGameMgr._players.Count; i++)
+        GameObject go = GameObject.Instantiate(_UIPlayer.gameObject) as GameObject;
+        if(go!=null)
         {
-            Player player = NetworkGameMgr._players[i];
-
-            GameObject go = GameObject.Instantiate(_UIPlayer.gameObject) as GameObject;
             go.SetActive(true);
             _playerGrid.AddChild(go.transform);
             go.transform.localScale = Vector3.one;
 
             UIPlayer uiplayer = go.GetComponent<UIPlayer>();
             uiplayer.Init(player.playerName, player.IconIndex.ToString());
-            NetworkServer.Spawn(go);
+            _playerGrid.Reposition();
         }
-        _playerGrid.Reposition();
+
+        return go;
     }
 
     public void SetActiveDealBtn(bool value)
