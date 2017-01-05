@@ -126,7 +126,9 @@ public class NetworkGameMgr : NetworkBehaviour
             Player player = _players[i];
 
             List<CardStruct> cardList = _cardsMgr.GetCards(INIT_HAVE_CARDS_NUMB);
-            player.server_AddCard(cardList); 
+            player.server_AddCard(cardList);
+
+            player.Rpc_SetCardsNumb(player.HaveCards.Count);
         }
     }
 
@@ -134,6 +136,7 @@ public class NetworkGameMgr : NetworkBehaviour
     public void ServerGetCards(Player player,uint value)
     {
         List<CardStruct> cardList = _cardsMgr.GetCards(value);
-        player.server_AddCard(cardList); 
+        player.server_AddCard(cardList);
+        player.Rpc_SetCardsNumb(player.HaveCards.Count);
     }
 }

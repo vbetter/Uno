@@ -17,6 +17,9 @@ public class UIPlayer : MonoBehaviour {
     [SerializeField]
     UILabel _label_name;
 
+    [SerializeField]
+    UILabel _label_cards;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -26,5 +29,10 @@ public class UIPlayer : MonoBehaviour {
     {
         _label_name.text = playerName;
         _sp_icon.spriteName = iconName;
+    }
+
+    public void SetCardsNumb(uint value)
+    {
+        _label_cards.text = value.ToString();
     }
 }

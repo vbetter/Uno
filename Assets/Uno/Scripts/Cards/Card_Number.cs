@@ -14,8 +14,8 @@ public class Card_Number : Card {
         ENUM_CARD_TYPE CardColor = (ENUM_CARD_TYPE)MyCardStruct.CardType;
         ENUM_CARD_TYPE LastCardColor = (ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType;
 
-        uint CardNumber = MyCardStruct.CardNumber;
-        uint LastCardNumber = lastCard.MyCardStruct.CardNumber;
+        int CardNumber = MyCardStruct.CardNumber;
+        int LastCardNumber = lastCard.MyCardStruct.CardNumber;
 
         switch ((ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType)
         {

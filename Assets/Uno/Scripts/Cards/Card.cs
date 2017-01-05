@@ -32,9 +32,9 @@ public struct CardStruct
 {
     public int CardColor;
     public int CardType;
-    public uint CardNumber;
+    public int CardNumber;
     public string CardName;
-    public uint UID;//卡片唯一id
+    public int UID;//卡片唯一id
 }
 
 public class SyncListCardItem : SyncListStruct<CardStruct> { }

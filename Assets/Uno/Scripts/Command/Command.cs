@@ -162,7 +162,7 @@ public class InitCardCommand : Command
             for (int s = 0; s < 2; s++)
             {
                 //创建普通牌
-                for (uint i = 0; i < 10; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     CardStruct card = new CardStruct();
                     card.CardNumber = i;
@@ -206,7 +206,8 @@ public class InitCardCommand : Command
         for (int j = 0; j < OpenCardList.Count; j++)
         {
             CardStruct item = OpenCardList[j];
-            item.UID = (uint)j;
+            item.UID = j;
+            OpenCardList[j] = item;
         }
 
         return base.Execute();

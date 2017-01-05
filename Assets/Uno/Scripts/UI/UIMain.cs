@@ -17,6 +17,8 @@ public class UIMain : MonoBehaviour {
     [SerializeField]
     public UIGrid _playerGrid;
 
+    [SerializeField]
+    UILabel _label_chooseCards;
 
 	// Use this for initialization
 	void Start () {
@@ -40,6 +42,7 @@ public class UIMain : MonoBehaviour {
         {
             //Debug.Log("_btn_deal");
             Utils.ClientLocalPlayer().CmdDealCards();
+            _btn_deal.gameObject.SetActive(false);
         };
     }
 
@@ -55,6 +58,8 @@ public class UIMain : MonoBehaviour {
             UIPlayer uiplayer = go.GetComponent<UIPlayer>();
             uiplayer.Init(player.playerName, player.IconIndex.ToString());
             _playerGrid.Reposition();
+
+            player.MyUIPlayer = uiplayer;
         }
 
         return go;
@@ -63,5 +68,10 @@ public class UIMain : MonoBehaviour {
     public void SetActiveDealBtn(bool value)
     {
         _btn_deal.SetActive(value);
+    }
+
+    public void SetLabelChooseCards(int value)
+    {
+        _label_chooseCards.text = "选中卡牌:" + value.ToString();
     }
 }

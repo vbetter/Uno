@@ -13,14 +13,18 @@ using UnityEngine.Networking;
 
 public class Player : NetworkBehaviour
 {
+    public UIPlayer MyUIPlayer = null;
+
     [SyncVar]
     public string playerName;
 
     [SyncVar]
     public Color color;
 
-    public SyncListCardItem HaveCards = new SyncListCardItem();//手牌
-
+    public SyncListCardItem HaveCards = new SyncListCardItem();     //手牌
+    public SyncListCardItem AddCards = new SyncListCardItem();      //增加卡牌
+    public SyncListCardItem PlayCards = new SyncListCardItem();     //打出卡牌
+    
     public int IconIndex = 0;//用于头像显示
 
     //hard to control WHEN Init is called (networking make order between object spawning non deterministic)
@@ -72,6 +76,7 @@ public class Player : NetworkBehaviour
         {
             CardStruct card = cards[i];
             HaveCards.Add(card);
+            AddCards.Add(card);
         }
 
         Rpc_AddCard();
@@ -83,8 +88,15 @@ public class Player : NetworkBehaviour
         if(isLocalPlayer)
         {
             Debug.Log("Rpc_AddCard HaveCards.Count:" + HaveCards.Count);
-            MyUIMain._UIMyCards.AddCard(HaveCards);
+            MyUIMain._UIMyCards.AddCard(AddCards);
+            AddCards.Clear();
         }        
+    }
+
+    [ClientRpc]
+    public void Rpc_SetCardsNumb(uint value)
+    {
+        MyUIPlayer.SetCardsNumb(value);
     }
 
     [Command]
@@ -125,5 +137,36 @@ public class Player : NetworkBehaviour
     public void CmdPlayCards(SyncListCardItem cards)
     {
 
+    }
+
+    public void AddCard_toPlayCards(CardStruct card)
+    {
+        for (int i = 0; i < PlayCards.Count; i++)
+        {
+            CardStruct item = PlayCards[i];
+            if (item.UID == card.UID)
+            {
+                return;
+            }
+        }
+
+        PlayCards.Add(card);
+
+        MyUIMain.SetLabelChooseCards(PlayCards.Count);
+    }
+
+    public void RemoveCard_toPlayCards(CardStruct card)
+    {
+        for (int i = 0; i < PlayCards.Count; i++)
+        {
+            CardStruct item = PlayCards[i];
+            if(item.UID == card.UID)
+            {
+                
+                PlayCards.RemoveAt(i);
+                MyUIMain.SetLabelChooseCards(PlayCards.Count);
+                return;
+            }
+        }
     }
 }
