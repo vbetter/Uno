@@ -97,7 +97,7 @@ public class NetworkGameMgr : NetworkBehaviour
     }
 
     UIMain _UIMain = null;
-    UIMain MyUIMain
+    public UIMain MyUIMain
     {
         get
         {

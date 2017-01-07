@@ -76,7 +76,7 @@ public class ShuffleCommand : Command
 
     public override bool Execute()
     {
-        List<CardStruct> cardList = _cardsMgr.OpenCardList;
+        SyncListCardItem cardList = _cardsMgr.OpenCardList;
         for (int i = (int)cardList.Count - 1; i >= 1; i--)
         {
             mySwap(i, (int)Random.Range(0, 100000) % ((int)cardList.Count - i), ref cardList);
@@ -85,7 +85,7 @@ public class ShuffleCommand : Command
         return base.Execute();
     }
 
-    void mySwap(int x, int y, ref List<CardStruct> list)
+    void mySwap(int x, int y,ref SyncListCardItem list)
     {
         var temp = list[x];
         list[x] = list[y];
@@ -152,7 +152,7 @@ public class InitCardCommand : Command
 
     public override bool Execute()
     {
-        List<CardStruct> OpenCardList = _cardsMgr.OpenCardList;
+        SyncListCardItem OpenCardList = _cardsMgr.OpenCardList;
 
         for (int j = 1; j <= CardsMgr.MaxColorNumber; j++)
         {

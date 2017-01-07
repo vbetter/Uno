@@ -14,9 +14,9 @@ using System.Collections.Generic;
 public class CardsMgr : NetworkBehaviour 
 {
 
-    List<CardStruct> _openCardList = new List<CardStruct>();//可以摸得牌
+    SyncListCardItem _openCardList = new SyncListCardItem();//可以摸得牌
 
-    List<CardStruct> _closeCardList = new List<CardStruct>();//打出的牌
+    SyncListCardItem _closeCardList = new SyncListCardItem();//打出的牌
 
     public static readonly uint MaxColorNumber = 4;     //4种颜色
     public static readonly uint MaxCardNumb = 108;      //总共108张
@@ -34,7 +34,7 @@ public class CardsMgr : NetworkBehaviour
         }
     }
 
-    public List<CardStruct> OpenCardList
+    public SyncListCardItem OpenCardList
     {
         set
         {
@@ -46,7 +46,7 @@ public class CardsMgr : NetworkBehaviour
         }
     }
 
-    public List<CardStruct> CloseCardList
+    public SyncListCardItem CloseCardList
     {
         get
         {
@@ -87,6 +87,13 @@ public class CardsMgr : NetworkBehaviour
             CloseCardList.Add(card);
             getCardList.Add(card);
         }
+        Rpc_UpdateCardNumbers();
         return getCardList;
+    }
+
+    [ClientRpc]
+    public void Rpc_UpdateCardNumbers()
+    {
+        NetworkGameMgr.Instance.MyUIMain.UpdateCardsNumber(OpenCardList.Count, CloseCardList.Count);
     }
 }

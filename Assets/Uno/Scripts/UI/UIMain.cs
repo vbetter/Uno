@@ -20,6 +20,9 @@ public class UIMain : MonoBehaviour {
     [SerializeField]
     UILabel _label_chooseCards;
 
+    [SerializeField]
+    UILabel _label_allCards,_label_removeCards;//牌库总数，打出牌总数
+
 	// Use this for initialization
 	void Start () {
 	
@@ -30,6 +33,15 @@ public class UIMain : MonoBehaviour {
         UIEventListener.Get(_btn_playCard.gameObject).onClick = (go) => 
         {
             Debug.Log("_btn_playCard");
+
+            for (int i = 0; i < Utils.ClientLocalPlayer().PlayCards.Count; i++)
+            {
+                _UIMyCards.RemoveCard(Utils.ClientLocalPlayer().PlayCards[i]);
+            }
+
+            Utils.ClientLocalPlayer().CmdPlayCards();
+            SetLabelChooseCards(0);
+
         };
 
         UIEventListener.Get(_btn_getCard.gameObject).onClick = (go) => 
@@ -44,6 +56,12 @@ public class UIMain : MonoBehaviour {
             Utils.ClientLocalPlayer().CmdDealCards();
             _btn_deal.gameObject.SetActive(false);
         };
+    }
+
+    public void UpdateCardsNumber(int hadCards,int removeCards)
+    {
+        _label_allCards.text = "余牌总数:" + hadCards.ToString();
+        _label_removeCards.text = "出牌总数:" + removeCards.ToString();
     }
 
     public GameObject InitUIPlayer(Player player)

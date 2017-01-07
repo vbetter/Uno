@@ -99,13 +99,6 @@ public class Player : NetworkBehaviour
         MyUIPlayer.SetCardsNumb(value);
     }
 
-    [Command]
-    public void Cmd_PlayCard(List<Card> cards)
-    {
-        //出牌
-
-    }
-
     UIMain _UIMain = null;
     
     UIMain MyUIMain
@@ -134,9 +127,27 @@ public class Player : NetworkBehaviour
     }
 
     [Command]
-    public void CmdPlayCards(SyncListCardItem cards)
+    public void CmdPlayCards()
     {
+        if(PlayCards.Count>0)
+        {
+            for (int i = 0; i < PlayCards.Count; i++)
+            {
+                CardStruct card = PlayCards[i];
 
+                for (int j = 0; j < HaveCards.Count; j++)
+                {
+                    CardStruct playCard = HaveCards[j];
+                    if(playCard.UID == card.UID)
+                    {
+                        HaveCards.RemoveAt(j);
+                    }
+                }
+            }
+            //更新卡牌显示
+            Rpc_SetCardsNumb(HaveCards.Count);
+            NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardNumbers();
+        }
     }
 
     public void AddCard_toPlayCards(CardStruct card)
