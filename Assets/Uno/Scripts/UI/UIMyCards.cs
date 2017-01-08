@@ -48,7 +48,7 @@ public class UIMyCards : MonoBehaviour {
         {
             _cardsList.Remove(uicard);
             Destroy(uicard.gameObject);
-            _grid.Reposition();
+            _grid.enabled = true;
         }
     }
 

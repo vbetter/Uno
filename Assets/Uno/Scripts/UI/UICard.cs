@@ -13,7 +13,11 @@ public class UICard : MonoBehaviour {
 
     public int UID = 0;
 
+    [SerializeField]
     bool isChoose = false;
+
+    [SerializeField]
+    int _cardNumb;
 
 	// Use this for initialization
 	void Start () {
@@ -23,8 +27,12 @@ public class UICard : MonoBehaviour {
 	public void Init(CardStruct card)
     {
         UID = card.UID;
-        _bg.spriteName = Utils.GetCardSpriteName(card);
-        _label.text = Utils.GetCardNumb(card);
+        _cardNumb = card.CardNumber;
+
+        SetCardSprite(card);
+
+        if ((ENUM_CARD_TYPE)card.CardType == ENUM_CARD_TYPE.NUMBER) _label.text = card.CardNumber.ToString();
+        else { _label.text = ""; }
         _sp_choose.gameObject.SetActive(isChoose);
 
         UIEventListener.Get(_bg.gameObject).onClick = (go) =>
@@ -41,5 +49,32 @@ public class UICard : MonoBehaviour {
             }
             _sp_choose.gameObject.SetActive(isChoose);
         };
+    }
+
+    void SetCardSprite(CardStruct card)
+    {
+        string spName = "";
+
+        ENUM_CARD_TYPE cardType = (ENUM_CARD_TYPE)card.CardType;
+        ENUM_CARD_COLOR cardColor = (ENUM_CARD_COLOR)card.CardColor;
+
+        switch (cardType)
+        {
+            case ENUM_CARD_TYPE.NONE:
+                break;
+            case ENUM_CARD_TYPE.NUMBER:
+            case ENUM_CARD_TYPE.STOP:
+            case ENUM_CARD_TYPE.FLIP:
+            case ENUM_CARD_TYPE.DRAW2:
+                spName = Utils.GetCardTypeNameWithType(cardType) + "_" + Utils.GetColorNameWithType(cardColor);
+                break;
+            case ENUM_CARD_TYPE.WILD:
+            case ENUM_CARD_TYPE.WILD_DRAW4:
+                spName = Utils.GetCardTypeNameWithType(cardType);
+                break;
+            default:
+                break;
+        }
+        _bg.spriteName = spName;
     }
 }

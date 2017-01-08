@@ -158,11 +158,20 @@ public class InitCardCommand : Command
         {
             ENUM_CARD_COLOR myColor = (ENUM_CARD_COLOR)j;
 
+            //0数字牌1张
+            {
+                CardStruct card = new CardStruct();
+                card.CardNumber = 0;
+                card.CardColor = j;
+                card.CardType = (int)ENUM_CARD_TYPE.NUMBER;
+                OpenCardList.Add(card);
+            }
+
             //每种颜色2张
             for (int s = 0; s < 2; s++)
             {
-                //创建普通牌
-                for (int i = 0; i < 10; i++)
+                //创建普通牌 1-9
+                for (int i = 1; i < 10; i++)
                 {
                     CardStruct card = new CardStruct();
                     card.CardNumber = i;
@@ -171,10 +180,10 @@ public class InitCardCommand : Command
                     OpenCardList.Add(card);
                 }
 
-                //创建跳过牌
+                //创建禁止牌
                 {
                     CardStruct card = new CardStruct();
-                    card.CardType = (int)ENUM_CARD_TYPE.PASS;
+                    card.CardType = (int)ENUM_CARD_TYPE.STOP;
                     card.CardColor = j;
                     OpenCardList.Add(card);
                 }
@@ -186,19 +195,27 @@ public class InitCardCommand : Command
                     card.CardColor = j;
                     OpenCardList.Add(card);
                 }
+
+                //创建+2牌
+                {
+                    CardStruct card = new CardStruct();
+                    card.CardType = (int)ENUM_CARD_TYPE.DRAW2;
+                    card.CardColor = j;
+                    OpenCardList.Add(card);
+                }
             }
 
-            //创建drawtwo,总共4张
-            {
-                CardStruct card = new CardStruct();
-                card.CardType = (int)ENUM_CARD_TYPE.DRAWTWO;
-                OpenCardList.Add(card);
-            }
-
-            //创建万能牌，总共4张
+            //创建wild,总共4张
             {
                 CardStruct card = new CardStruct();
                 card.CardType = (int)ENUM_CARD_TYPE.WILD;
+                OpenCardList.Add(card);
+            }
+
+            //创建wild draw4，总共4张
+            {
+                CardStruct card = new CardStruct();
+                card.CardType = (int)ENUM_CARD_TYPE.WILD_DRAW4;
                 OpenCardList.Add(card);
             }
         }

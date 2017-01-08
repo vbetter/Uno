@@ -141,6 +141,7 @@ public class Player : NetworkBehaviour
                     if(playCard.UID == card.UID)
                     {
                         HaveCards.RemoveAt(j);
+                        NetworkGameMgr.Instance.MyCardsMgr.CloseCardList.Add(playCard);
                     }
                 }
             }

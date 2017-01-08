@@ -16,7 +16,7 @@ public class UICardsTable : MonoBehaviour {
 
     public void PlayCard(CardStruct card)
     {
-        _sprite.spriteName = Utils.GetCardSpriteName(card);
-        _label.text = Utils.GetCardNumb(card);
+        //_sprite.spriteName = Utils.GetCardSpriteName(card);
+        //_label.text = Utils.GetCardNumb(card);
     }
 }

@@ -13,6 +13,7 @@ public class Card_Pass : Card {
         ENUM_CARD_TYPE CardColor = (ENUM_CARD_TYPE)MyCardStruct.CardType;
         ENUM_CARD_TYPE LastCardColor = (ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType;
 
+        /*
         switch ((ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType)
         {
             case ENUM_CARD_TYPE.NONE:
@@ -35,6 +36,7 @@ public class Card_Pass : Card {
             default:
                 break;
         }
+            */
         return base.CanPlayCard(lastCard);
     }
 }

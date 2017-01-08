@@ -20,11 +20,12 @@ public enum ENUM_CARD_COLOR
 public enum ENUM_CARD_TYPE
 {
     NONE,
-    NUMBER,
-    PASS,
-    FLIP,
-    DRAWTWO,
-    WILD
+    NUMBER,     //数字
+    STOP,       //禁止
+    FLIP,       //翻转
+    DRAW2,      //+2
+    WILD,       
+    WILD_DRAW4
 }
 
 [System.Serializable]
@@ -61,21 +62,25 @@ public class Card
             case ENUM_CARD_TYPE.NUMBER:
                 t = new Card_Number();
                 break;
-            case ENUM_CARD_TYPE.PASS:
+            case ENUM_CARD_TYPE.STOP:
                 t = new Card_Pass();
                 break;
             case ENUM_CARD_TYPE.FLIP:
                 t = new Card_Flip();
                 break;
-            case ENUM_CARD_TYPE.DRAWTWO:
+            case ENUM_CARD_TYPE.DRAW2:
                 t = new Card_DrawTwo();
                 break;
             case ENUM_CARD_TYPE.WILD:
                 t = new Card_Wild();
                 break;
+            case ENUM_CARD_TYPE.WILD_DRAW4:
+                t = new Card_Wild4();
+                break;
             default:
                 break;
         }
+
         return t as T;
     }
 
@@ -88,34 +93,4 @@ public class Card
     {
         MyCardStruct = value;
     }
-
-    /*
-    public string CardName;
-    public void InitCardName(ref string cardName)
-    {
-        switch (CardType)
-        {
-            case ENUM_CARD_TYPE.NONE:
-                break;
-            case ENUM_CARD_TYPE.NUMBER:
-                cardName = string.Format("{0} {1}",GetColorString(CardColor),CardNumber);
-                break;
-            case ENUM_CARD_TYPE.PASS:
-                cardName = string.Format("{0} PASS", GetColorString(CardColor));
-                break;
-            case ENUM_CARD_TYPE.FLIP:
-                cardName = string.Format("{0} FLIP", GetColorString(CardColor));
-                break;
-            case ENUM_CARD_TYPE.DRAWTWO:
-                cardName = string.Format("DRAWTWO");
-                break;
-            case ENUM_CARD_TYPE.WILD:
-                cardName = string.Format("WILD" );
-                break;
-            default:
-                break;
-        }
-    }
-
-     */
 }

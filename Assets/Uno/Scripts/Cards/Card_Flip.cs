@@ -20,19 +20,23 @@ public class Card_Flip : Card {
             case ENUM_CARD_TYPE.NUMBER:
                 if (CardColor == LastCardColor) return true;
                 break;
-            case ENUM_CARD_TYPE.PASS:
+            case ENUM_CARD_TYPE.STOP:
                 break;
             case ENUM_CARD_TYPE.FLIP:
                 break;
-            case ENUM_CARD_TYPE.DRAWTWO:
+            case ENUM_CARD_TYPE.DRAW2:
                 if (!lastCard.HasEffect && LastCardColor == CardColor) return true;
                 break;
             case ENUM_CARD_TYPE.WILD:
                 if (!lastCard.HasEffect && LastCardColor == CardColor) return true;
                 break;
+            case ENUM_CARD_TYPE.WILD_DRAW4:
+                if (!lastCard.HasEffect && LastCardColor == CardColor) return true;
+                break;
             default:
                 break;
         }
+
         return base.CanPlayCard(lastCard);
     }
 }

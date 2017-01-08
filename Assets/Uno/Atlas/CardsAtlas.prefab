@@ -53,11 +53,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 89afe853e0ae99042b08a2bb3700f3e5, type: 2}
   mSprites:
-  - name: card_wild
-    x: 0
-    y: 758
-    width: 170
-    height: 266
+  - name: draw2_blue
+    x: 1542
+    y: 715
+    width: 202
+    height: 309
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -66,9 +66,100 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: card_blue
+  - name: draw2_green
+    x: 771
+    y: 231
+    width: 256
+    height: 395
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: draw2_red
+    x: 514
+    y: 626
+    width: 256
+    height: 398
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: draw2_yellow
+    x: 257
+    y: 623
+    width: 256
+    height: 401
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: flip_blue
     x: 0
-    y: 494
+    y: 616
+    width: 256
+    height: 408
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: flip_green
+    x: 771
+    y: 627
+    width: 256
+    height: 397
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: flip_red
+    x: 0
+    y: 207
+    width: 256
+    height: 408
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: flip_yellow
+    x: 1028
+    y: 631
+    width: 256
+    height: 393
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: numb_blue
+    x: 1285
+    y: 381
     width: 170
     height: 263
     borderLeft: 0
@@ -79,22 +170,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: card_drawtwo
-    x: 513
-    y: 769
-    width: 170
-    height: 255
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: card_green
-    x: 342
-    y: 766
+  - name: numb_green
+    x: 1456
+    y: 125
     width: 170
     height: 258
     borderLeft: 0
@@ -105,9 +183,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: card_red
-    x: 171
-    y: 764
+  - name: numb_red
+    x: 1456
+    y: 384
     width: 170
     height: 260
     borderLeft: 0
@@ -118,11 +196,89 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: card_yellow
-    x: 0
-    y: 232
+  - name: numb_yellow
+    x: 1285
+    y: 119
     width: 170
     height: 261
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: stop_blue
+    x: 514
+    y: 227
+    width: 256
+    height: 398
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: stop_green
+    x: 1028
+    y: 243
+    width: 256
+    height: 387
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: stop_red
+    x: 257
+    y: 223
+    width: 256
+    height: 399
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: stop_yellow
+    x: 1285
+    y: 645
+    width: 256
+    height: 379
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: wild
+    x: 1627
+    y: 389
+    width: 170
+    height: 255
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: wild_draw4
+    x: 1745
+    y: 758
+    width: 170
+    height: 266
     borderLeft: 0
     borderRight: 0
     borderTop: 0

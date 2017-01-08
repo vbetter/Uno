@@ -23,72 +23,7 @@ public class Utils {
         return p != null ? p.gameObject.GetComponent<Player>() : null;
     }
 
-    public static string GetCardSpriteName(CardStruct card)
-    {
-        string spName = "";
-
-        switch ((ENUM_CARD_COLOR)card.CardColor)
-        {
-            case ENUM_CARD_COLOR.NONE:
-                break;
-            case ENUM_CARD_COLOR.RED:
-                spName = "card_red";
-                break;
-            case ENUM_CARD_COLOR.YELLOW:
-                spName = "card_yellow";
-                break;
-            case ENUM_CARD_COLOR.BLUE:
-                spName = "card_blue";
-                break;
-            case ENUM_CARD_COLOR.GREEN:
-                spName = "card_green";
-                break;
-            default:
-                break;
-        }
-
-        ENUM_CARD_TYPE cardType = (ENUM_CARD_TYPE)card.CardType;
-        if (cardType == ENUM_CARD_TYPE.DRAWTWO)
-        {
-            spName = "card_drawtwo";
-
-        }
-        else if (cardType == ENUM_CARD_TYPE.WILD)
-        {
-            spName = "card_wild";
-        }
-        return spName;
-    }
-
-    public static string GetCardNumb(CardStruct card)
-    {
-        string value = "";
-
-        switch ((ENUM_CARD_TYPE)card.CardType)
-        {
-            case ENUM_CARD_TYPE.NONE:
-                break;
-            case ENUM_CARD_TYPE.NUMBER:
-                value = card.CardNumber.ToString();
-                break;
-            case ENUM_CARD_TYPE.PASS:
-                value = card.CardName;
-                break;
-            case ENUM_CARD_TYPE.FLIP:
-                value = card.CardName;
-                break;
-            case ENUM_CARD_TYPE.DRAWTWO:
-                break;
-            case ENUM_CARD_TYPE.WILD:
-                break;
-            default:
-                break;
-        }
-
-        return value;
-    }
-
-    public static string GetColorString(ENUM_CARD_COLOR color)
+    public static string GetColorChinaNameWithType(ENUM_CARD_COLOR color)
     {
         string colorstring = "";
         switch (color)
@@ -106,6 +41,62 @@ public class Utils {
                 break;
             case ENUM_CARD_COLOR.GREEN:
                 colorstring = "绿色";
+                break;
+            default:
+                break;
+        }
+        return colorstring;
+    }
+
+    public static string GetColorNameWithType(ENUM_CARD_COLOR color)
+    {
+        string colorstring = "";
+        switch (color)
+        {
+            case ENUM_CARD_COLOR.NONE:
+                break;
+            case ENUM_CARD_COLOR.RED:
+                colorstring = "red";
+                break;
+            case ENUM_CARD_COLOR.YELLOW:
+                colorstring = "yellow";
+                break;
+            case ENUM_CARD_COLOR.BLUE:
+                colorstring = "blue";
+                break;
+            case ENUM_CARD_COLOR.GREEN:
+                colorstring = "green";
+                break;
+            default:
+                break;
+        }
+        return colorstring;
+    }
+
+    public static string GetCardTypeNameWithType(ENUM_CARD_TYPE type)
+    {
+        string colorstring = "";
+        switch (type)
+        {
+            case ENUM_CARD_TYPE.NONE:
+                break;
+            case ENUM_CARD_TYPE.NUMBER:
+                colorstring = "numb";
+                break;
+            case ENUM_CARD_TYPE.STOP:
+                colorstring = "stop";
+                break;
+            case ENUM_CARD_TYPE.FLIP:
+                colorstring = "flip";
+                break;
+            case ENUM_CARD_TYPE.DRAW2:
+                colorstring = "draw2";
+                break;
+            case ENUM_CARD_TYPE.WILD:
+                colorstring = "wild";
+                break;
+            case ENUM_CARD_TYPE.WILD_DRAW4:
+                colorstring = "wild_draw4";
                 break;
             default:
                 break;

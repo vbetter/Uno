@@ -11,12 +11,19 @@ public class Card_Number : Card {
 
     public override bool CanPlayCard(Card lastCard)
     {
-        ENUM_CARD_TYPE CardColor = (ENUM_CARD_TYPE)MyCardStruct.CardType;
-        ENUM_CARD_TYPE LastCardColor = (ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType;
-
+        ENUM_CARD_COLOR CardColor = (ENUM_CARD_COLOR)MyCardStruct.CardColor;
+        ENUM_CARD_COLOR LastCardColor = (ENUM_CARD_COLOR)lastCard.MyCardStruct.CardColor;
+        
+        /*
+        ENUM_CARD_TYPE cardType = (ENUM_CARD_TYPE)
         int CardNumber = MyCardStruct.CardNumber;
         int LastCardNumber = lastCard.MyCardStruct.CardNumber;
 
+        switch (card)
+        {
+            default:
+                break;
+        }
         switch ((ENUM_CARD_TYPE)lastCard.MyCardStruct.CardType)
         {
             case ENUM_CARD_TYPE.NONE:
@@ -39,6 +46,7 @@ public class Card_Number : Card {
             default:
                 break;
         }
+        */
         return base.CanPlayCard(lastCard);
     }
 }
