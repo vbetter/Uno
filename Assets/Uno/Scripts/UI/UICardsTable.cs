@@ -4,10 +4,13 @@ using System.Collections;
 public class UICardsTable : MonoBehaviour {
 
     [SerializeField]
-    UILabel _label;
+    GameObject _container_cards;
 
     [SerializeField]
-    UISprite _sprite;
+    UICard _lastUICard;
+
+    [SerializeField]
+    GameObject ResUICard;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +19,20 @@ public class UICardsTable : MonoBehaviour {
 
     public void PlayCard(CardStruct card)
     {
-        //_sprite.spriteName = Utils.GetCardSpriteName(card);
-        //_label.text = Utils.GetCardNumb(card);
+        AddCard(card);
+    }
+
+    void AddCard(CardStruct card)
+    {
+        if(_lastUICard == null)
+        {
+            GameObject go = GameObject.Instantiate(ResUICard) as GameObject;
+            go.SetActive(true);
+            _container_cards.AddChild(go.transform);
+            go.transform.localScale = Vector3.one;
+            _lastUICard = go.GetComponent<UICard>();
+        }
+
+        _lastUICard.InitCard(card);
     }
 }

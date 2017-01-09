@@ -27,6 +27,18 @@ public class Player : NetworkBehaviour
     
     public int IconIndex = 0;//用于头像显示
 
+    public bool IsLastOne
+    {
+        get
+        {
+            if (HaveCards.Count ==1)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
     //hard to control WHEN Init is called (networking make order between object spawning non deterministic)
     //so we call init from multiple location (depending on what between spaceship & manager is created first).
     protected bool _wasInit = false;

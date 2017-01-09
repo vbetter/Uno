@@ -18,20 +18,16 @@ public class CardsMgr : NetworkBehaviour
 
     SyncListCardItem _closeCardList = new SyncListCardItem();//打出的牌
 
-    public static readonly uint MaxColorNumber = 4;     //4种颜色
-    public static readonly uint MaxCardNumb = 108;      //总共108张
+    public static readonly uint MaxColorNumber = 4;         //4种颜色
+    public static readonly uint MaxCardNumb = 108;          //总共108张
+    public static readonly uint INIT_HAVE_CARDS_NUMB = 7;   //初始手牌7张
 
-    Card _lastCard = null;
-    public Card LastCard
+    /// <summary>
+    /// 上一张牌 
+    /// </summary>
+    public CardStruct LastCard
     {
-        set
-        {
-            _lastCard = value;
-        }
-        get
-        {
-            return _lastCard;
-        }
+        set;get;
     }
 
     public SyncListCardItem OpenCardList
@@ -68,6 +64,10 @@ public class CardsMgr : NetworkBehaviour
         //洗牌
         ShuffleCommand ShuffleCommand = new ShuffleCommand(this);
         ShuffleCommand.Execute();
+
+        //创建首牌
+        CardStruct firstCard = GetCards(1)[0];
+        LastCard = firstCard;
     }
 
     /// <summary>

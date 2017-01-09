@@ -103,4 +103,109 @@ public class Utils {
         }
         return colorstring;
     }
+
+
+    /// <summary>
+    /// 能否出牌
+    /// </summary>
+    /// <param name="playCards">当前牌组</param>
+    /// <param name="lastCard">上一张牌</param>
+    /// <param name="isLastOne">是否是最后一张牌</param>
+    /// <returns></returns>
+    public static bool IsPlayWithCards(SyncListCardItem playCards, CardStruct lastCard, bool isLastOne)
+    {
+        if (playCards == null || playCards.Count == 0) return false;
+
+        for (int i = 0; i < playCards.Count; i++)
+        {
+            CardStruct curCard = playCards[i];
+            if(!IsPlayWithCard(curCard,lastCard,isLastOne))
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    /// <summary>
+    /// 是否能出牌
+    /// </summary>
+    /// <param name="curCard">当前牌</param>
+    /// <param name="lastCard">上一张牌</param>
+    /// <param name="isLastOne">是否是最后一张牌</param>
+    /// <returns></returns>
+    public static bool IsPlayWithCard(CardStruct curCard,CardStruct lastCard,bool isLastOne)
+    {
+        if(lastCard.HasEffect == true)
+        {
+            switch ((ENUM_CARD_TYPE)lastCard.CardType)
+            {
+                case ENUM_CARD_TYPE.NONE:
+                    break;
+                case ENUM_CARD_TYPE.NUMBER:
+                    {
+                        if (curCard.CardColor == lastCard.CardColor
+                            || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD
+                            || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD_DRAW4
+                            )
+                            return true;
+                    }
+                    break;
+                case ENUM_CARD_TYPE.STOP:
+                    {
+                        if ((ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.STOP)
+                        {
+                            return true;
+                        }
+                    }
+                    break;
+                case ENUM_CARD_TYPE.FLIP:
+                        return false;
+                    break;
+                case ENUM_CARD_TYPE.DRAW2:
+                    {
+                        if ((ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.DRAW2)
+                        {
+                            return true;
+                        }
+                    }
+                    break;
+                case ENUM_CARD_TYPE.WILD:
+                    {
+                        if (curCard.CardColor == lastCard.CardColor
+                        || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD
+                        || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD_DRAW4
+                            )
+                        {
+                            if(((ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD_DRAW4) && isLastOne)
+                            {
+                                return false;
+                            }
+                            return true;
+                        }
+                    }
+                    break;
+                case ENUM_CARD_TYPE.WILD_DRAW4:
+                    {
+                        if ((ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD_DRAW4 && !isLastOne)
+                            return true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            if (curCard.CardColor == lastCard.CardColor
+            || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD
+            || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD_DRAW4
+            )
+                return true;
+        }
+
+        return false;
+    }
 }

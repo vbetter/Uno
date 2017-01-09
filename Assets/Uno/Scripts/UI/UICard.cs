@@ -26,14 +26,7 @@ public class UICard : MonoBehaviour {
 	
 	public void Init(CardStruct card)
     {
-        UID = card.UID;
-        _cardNumb = card.CardNumber;
-
-        SetCardSprite(card);
-
-        if ((ENUM_CARD_TYPE)card.CardType == ENUM_CARD_TYPE.NUMBER) _label.text = card.CardNumber.ToString();
-        else { _label.text = ""; }
-        _sp_choose.gameObject.SetActive(isChoose);
+        InitCard(card);
 
         UIEventListener.Get(_bg.gameObject).onClick = (go) =>
         {
@@ -49,6 +42,19 @@ public class UICard : MonoBehaviour {
             }
             _sp_choose.gameObject.SetActive(isChoose);
         };
+    }
+
+    public void InitCard(CardStruct card)
+    {
+        UID = card.UID;
+        _cardNumb = card.CardNumber;
+
+        SetCardSprite(card);
+
+        if ((ENUM_CARD_TYPE)card.CardType == ENUM_CARD_TYPE.NUMBER) _label.text = card.CardNumber.ToString();
+        else { _label.text = ""; }
+
+        _sp_choose.gameObject.SetActive(isChoose);
     }
 
     void SetCardSprite(CardStruct card)

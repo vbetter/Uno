@@ -34,14 +34,16 @@ public class UIMain : MonoBehaviour {
         {
             Debug.Log("_btn_playCard");
 
-            for (int i = 0; i < Utils.ClientLocalPlayer().PlayCards.Count; i++)
+            if(Utils.IsPlayWithCards(Utils.ClientLocalPlayer().PlayCards,NetworkGameMgr.Instance.MyCardsMgr.LastCard, Utils.ClientLocalPlayer().IsLastOne))
             {
-                _UIMyCards.RemoveCard(Utils.ClientLocalPlayer().PlayCards[i]);
+                for (int i = 0; i < Utils.ClientLocalPlayer().PlayCards.Count; i++)
+                {
+                    _UIMyCards.RemoveCard(Utils.ClientLocalPlayer().PlayCards[i]);
+                }
+
+                Utils.ClientLocalPlayer().CmdPlayCards();
+                SetLabelChooseCards(0);
             }
-
-            Utils.ClientLocalPlayer().CmdPlayCards();
-            SetLabelChooseCards(0);
-
         };
 
         UIEventListener.Get(_btn_getCard.gameObject).onClick = (go) => 

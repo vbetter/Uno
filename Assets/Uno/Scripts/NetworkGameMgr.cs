@@ -13,9 +13,9 @@ using System.Collections.Generic;
 
 public class NetworkGameMgr : NetworkBehaviour
 {
-    public static readonly uint INIT_HAVE_CARDS_NUMB = 7;//初始手牌7张
-
     public static List<Player> _players = new List<Player>();
+
+    public bool IsClockWise = true;//顺时针旋转出牌
 
     [SerializeField]
     CardsMgr _cardsMgr;
@@ -125,7 +125,7 @@ public class NetworkGameMgr : NetworkBehaviour
         {
             Player player = _players[i];
 
-            List<CardStruct> cardList = _cardsMgr.GetCards(INIT_HAVE_CARDS_NUMB);
+            List<CardStruct> cardList = _cardsMgr.GetCards(CardsMgr.INIT_HAVE_CARDS_NUMB);
             player.server_AddCard(cardList);
 
             player.Rpc_SetCardsNumb(player.HaveCards.Count);

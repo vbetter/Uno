@@ -35,7 +35,8 @@ public struct CardStruct
     public int CardType;
     public int CardNumber;
     public string CardName;
-    public int UID;//卡片唯一id
+    public int UID;             //卡片唯一id
+    public bool HasEffect;      //功能牌是否有效果
 }
 
 public class SyncListCardItem : SyncListStruct<CardStruct> { }
@@ -45,8 +46,6 @@ public class Card
     #region 变量
 
     public CardStruct MyCardStruct = new CardStruct();
-
-    public bool HasEffect = true;//有效果
 
     #endregion
 
@@ -63,7 +62,7 @@ public class Card
                 t = new Card_Number();
                 break;
             case ENUM_CARD_TYPE.STOP:
-                t = new Card_Pass();
+                t = new Card_Stop();
                 break;
             case ENUM_CARD_TYPE.FLIP:
                 t = new Card_Flip();

@@ -224,6 +224,7 @@ public class InitCardCommand : Command
         {
             CardStruct item = OpenCardList[j];
             item.UID = j;
+            item.HasEffect = true;
             OpenCardList[j] = item;
         }
 
