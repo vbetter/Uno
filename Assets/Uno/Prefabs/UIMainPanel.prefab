@@ -2522,7 +2522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container_cards: {fileID: 1000013066000106}
   _lastUICard: {fileID: 0}
-  ResUICard: {fileID: 0}
+  ResUICard: {fileID: 1000011950156430, guid: 1a0ff012c55fea04f8122f63b5b42814, type: 2}
 --- !u!114 &114000013981961624
 MonoBehaviour:
   m_ObjectHideFlags: 1

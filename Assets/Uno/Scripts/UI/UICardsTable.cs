@@ -14,7 +14,15 @@ public class UICardsTable : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+	    if(_lastUICard == null)
+        {
+            GameObject go = GameObject.Instantiate(ResUICard) as GameObject;
+            go.SetActive(true);
+            go.transform.parent = _container_cards.transform;
+            go.transform.localScale = Vector3.one;
+            _lastUICard = go.GetComponent<UICard>();
+
+        }
 	}
 
     public void PlayCard(CardStruct card)
@@ -24,15 +32,6 @@ public class UICardsTable : MonoBehaviour {
 
     void AddCard(CardStruct card)
     {
-        if(_lastUICard == null)
-        {
-            GameObject go = GameObject.Instantiate(ResUICard) as GameObject;
-            go.SetActive(true);
-            _container_cards.AddChild(go.transform);
-            go.transform.localScale = Vector3.one;
-            _lastUICard = go.GetComponent<UICard>();
-        }
-
         _lastUICard.InitCard(card);
     }
 }

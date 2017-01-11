@@ -25,10 +25,7 @@ public class CardsMgr : NetworkBehaviour
     /// <summary>
     /// 上一张牌 
     /// </summary>
-    public CardStruct LastCard
-    {
-        set;get;
-    }
+    public CardStruct LastCard;
 
     public SyncListCardItem OpenCardList
     {
@@ -69,8 +66,9 @@ public class CardsMgr : NetworkBehaviour
     public void CreateFirstCard()
     {
         //创建首牌
-        CardStruct firstCard = GetCards(1)[0];
+        CardStruct firstCard = GetCard(true);
         LastCard = firstCard;
+        LastCard.HasEffect = false;
         //牌桌上显示第一张牌
         Rpc_UpdateCardToTable();
     }
@@ -94,6 +92,77 @@ public class CardsMgr : NetworkBehaviour
         }
         Rpc_UpdateCardNumbers();
         return getCardList;
+    }
+
+    [Server]
+    public CardStruct GetCard(bool isWild = false)
+    {
+        int randIndex = UnityEngine.Random.Range(0, OpenCardList.Count - 1);
+
+        CardStruct card = OpenCardList[randIndex];
+        if(isWild)
+        {
+            if ((ENUM_CARD_TYPE)card.CardType == ENUM_CARD_TYPE.WILD_DRAW4 || (ENUM_CARD_TYPE)card.CardType == ENUM_CARD_TYPE.WILD)
+            {
+                return GetCard(isWild);
+            }
+        }
+
+        OpenCardList.Remove(card);
+        CloseCardList.Add(card);
+
+        Rpc_UpdateCardNumbers();
+        return card;
+    }
+
+    [Server]
+    public void PlayCard(CardStruct playCard)
+    {
+        
+        CloseCardList.Add(playCard);
+
+        if(LastCard.HasEffect )
+        {
+            switch ((ENUM_CARD_TYPE)LastCard.CardType)
+            {
+                case ENUM_CARD_TYPE.NONE:
+                    break;
+                case ENUM_CARD_TYPE.NUMBER:
+                    break;
+                case ENUM_CARD_TYPE.STOP:
+                    NetworkGameMgr.Instance.UpdateCurPlayerIndex();
+                    break;
+                case ENUM_CARD_TYPE.FLIP:
+                    NetworkGameMgr.Instance.IsClockWise = !NetworkGameMgr.Instance.IsClockWise;
+                    break;
+                case ENUM_CARD_TYPE.DRAW2:
+                    {
+                        //禁止下家出牌
+                        NetworkGameMgr.Instance.UpdateCurPlayerIndex();
+                        //下家摸2张牌
+                        NetworkGameMgr.Instance.NextPlayerGetCards(2);
+                    }
+                    break;
+                case ENUM_CARD_TYPE.WILD:
+                    {
+                        //变色
+                    }
+                    break;
+                case ENUM_CARD_TYPE.WILD_DRAW4:
+                    {
+                        //禁止下家出牌
+                        NetworkGameMgr.Instance.UpdateCurPlayerIndex();
+                        //下家摸4张牌
+                        NetworkGameMgr.Instance.NextPlayerGetCards(4);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //更新上一张牌
+        LastCard = playCard;
     }
 
     [ClientRpc]

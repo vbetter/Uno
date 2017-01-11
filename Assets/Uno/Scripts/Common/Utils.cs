@@ -200,6 +200,7 @@ public class Utils {
         else
         {
             if (curCard.CardColor == lastCard.CardColor
+            || curCard.CardNumber == lastCard.CardNumber
             || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD
             || (ENUM_CARD_TYPE)curCard.CardType == ENUM_CARD_TYPE.WILD_DRAW4
             )

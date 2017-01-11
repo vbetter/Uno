@@ -28,6 +28,9 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public int IconIndex = 0;//用于头像显示
 
+    [SyncVar]
+    public int UID = 0;
+
     public bool IsLastOne
     {
         get
@@ -111,8 +114,6 @@ public class Player : NetworkBehaviour
 
             MyUIMain.SetActiveDealBtn(isServer);
         }
-
-        //MyUIMain.InitUIPlayer(this);
     }
 
     [Server]
@@ -133,7 +134,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void Rpc_AddCard()
     {
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
             Debug.Log("Rpc_AddCard HaveCards.Count:" + HaveCards.Count);
             MyUIMain._UIMyCards.AddCard(AddCards);
@@ -145,21 +146,6 @@ public class Player : NetworkBehaviour
     public void Rpc_SetCardsNumb(uint value)
     {
         if(MyUIPlayer!=null)MyUIPlayer.SetCardsNumb(value);
-    }
-
-    UIMain _UIMain = null;
-    
-    UIMain MyUIMain
-    {
-        get
-        {
-            if(_UIMain==null)
-            {
-                _UIMain = GameObject.Find("UIMainPanel").GetComponent<UIMain>();
-            }
-
-            return _UIMain;
-        }
     }
 
     [Command]
@@ -189,19 +175,26 @@ public class Player : NetworkBehaviour
                     if(playCard.UID == card.UID)
                     {
                         HaveCards.RemoveAt(j);
-                        NetworkGameMgr.Instance.MyCardsMgr.CloseCardList.Add(playCard);
 
-                        //更新上一张牌
-                        NetworkGameMgr.Instance.MyCardsMgr.LastCard = playCard;
+                        NetworkGameMgr.Instance.PlayCard(playCard);
                     }
                 }
             }
-            //更新卡牌显示
-            Rpc_SetCardsNumb(HaveCards.Count);
-            NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardNumbers();
-            //更新牌桌上的显示
-            NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardToTable();
+            ServerPlayCards();
         }
+    }
+
+    [Server]
+    void ServerPlayCards()
+    {
+        //更新卡牌显示
+        Rpc_SetCardsNumb(HaveCards.Count);
+
+        NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardNumbers();
+        //更新牌桌上的显示
+        NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardToTable();
+        //更新下一个可行动的玩家
+        NetworkGameMgr.Instance.UpdateCurPlayerIndex();
     }
 
     public void AddCard_toPlayCards(CardStruct card)
@@ -234,4 +227,23 @@ public class Player : NetworkBehaviour
             }
         }
     }
+
+    #region ui相关
+
+    UIMain _UIMain = null;
+
+    UIMain MyUIMain
+    {
+        get
+        {
+            if (_UIMain == null)
+            {
+                _UIMain = GameObject.Find("UIMainPanel").GetComponent<UIMain>();
+            }
+
+            return _UIMain;
+        }
+    }
+
+    #endregion
 }

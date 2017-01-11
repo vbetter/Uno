@@ -34,7 +34,9 @@ public class UIMain : MonoBehaviour {
         {
             Debug.Log("_btn_playCard");
 
-            if(Utils.IsPlayWithCards(Utils.ClientLocalPlayer().PlayCards,NetworkGameMgr.Instance.MyCardsMgr.LastCard, Utils.ClientLocalPlayer().IsLastOne))
+            if(NetworkGameMgr.Instance.IsCanPlayByTurn() 
+                && Utils.IsPlayWithCards(Utils.ClientLocalPlayer().PlayCards,NetworkGameMgr.Instance.MyCardsMgr.LastCard, Utils.ClientLocalPlayer().IsLastOne)
+                )
             {
                 for (int i = 0; i < Utils.ClientLocalPlayer().PlayCards.Count; i++)
                 {

@@ -15,7 +15,11 @@ public class NetworkGameMgr : NetworkBehaviour
 {
     public static List<Player> _players = new List<Player>();
 
-    public bool IsClockWise = true;//顺时针旋转出牌
+    [SyncVar]
+    public bool IsClockWise = true;             //顺时针旋转出牌
+
+    [SyncVar]
+    public int CurPlayerIndex = 0;              //当前行动玩家索引
 
     [SerializeField]
     CardsMgr _cardsMgr;
@@ -25,7 +29,7 @@ public class NetworkGameMgr : NetworkBehaviour
 
     static NetworkGameMgr m_Instance = null;
 
-    public static int IconIndex = 0;
+    public static int IconIndex = 0;            //用来显示玩家头像的索引
 
     public CardsMgr MyCardsMgr
     {
@@ -164,5 +168,86 @@ public class NetworkGameMgr : NetworkBehaviour
         List<CardStruct> cardList = _cardsMgr.GetCards(value);
         player.server_AddCard(cardList);
         player.Rpc_SetCardsNumb(player.HaveCards.Count);
+    }
+
+    [Server]
+    public void NextPlayerGetCards(uint value)
+    {
+        Player player = GetNextPlayer();
+        List<CardStruct> cardList = _cardsMgr.GetCards(value);
+        player.server_AddCard(cardList);
+        player.Rpc_SetCardsNumb(player.HaveCards.Count);
+    }
+
+    [Server]
+    public void PlayCard(CardStruct card)
+    {
+        MyCardsMgr.PlayCard(card);
+    }
+
+    public Player GetLastPlayer()
+    {
+        int lastIndex = 0;
+        if(IsClockWise)
+        {
+            lastIndex =CurPlayerIndex - 1;
+            lastIndex = lastIndex < 0 ? _players.Count - 1 : lastIndex;
+        }
+        else
+        {
+            lastIndex =CurPlayerIndex + 1;
+            lastIndex = lastIndex > _players.Count - 1 ? 0 : lastIndex;
+        }
+
+        return _players[lastIndex];
+    }
+
+    public Player GetNextPlayer()
+    {
+        int nextPlayer = 0;
+
+        if (IsClockWise)
+        {
+            nextPlayer = CurPlayerIndex + 1;
+            nextPlayer = nextPlayer > _players.Count - 1 ? 0 : nextPlayer;
+        }
+        else
+        {
+            nextPlayer = CurPlayerIndex - 1;
+            nextPlayer = nextPlayer < 0 ? _players.Count - 1 : nextPlayer;
+        }
+
+        return _players[nextPlayer];
+    }
+
+    /// <summary>
+    /// 更新轮次，轮到下一家出牌
+    /// </summary>
+    public void UpdateCurPlayerIndex()
+    {
+        if (IsClockWise)
+        {
+            CurPlayerIndex++;
+            CurPlayerIndex = CurPlayerIndex > _players.Count - 1 ? 0 : CurPlayerIndex;
+        }
+        else
+        {
+            CurPlayerIndex--;
+            CurPlayerIndex = CurPlayerIndex < 0 ? _players.Count - 1 : CurPlayerIndex;
+        }
+    }
+
+    /// <summary>
+    /// 是否轮到你出牌
+    /// </summary>
+    /// <returns></returns>
+    public bool IsCanPlayByTurn()
+    {
+        if(CurPlayerIndex == Utils.ClientLocalPlayer().UID)
+        {
+            return true;
+        }
+        Debug.Log("is not your turn");
+        return false;
     }
 }

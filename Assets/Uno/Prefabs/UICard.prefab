@@ -299,7 +299,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 114000010377970226, guid: 3c46831d11bcb604e88ab3a652c7df3b, type: 2}
-  mSpriteName: card_blue
+  mSpriteName: numb_red
   mFillCenter: 1
 --- !u!114 &114000013242793440
 MonoBehaviour:
@@ -316,3 +316,5 @@ MonoBehaviour:
   _label: {fileID: 114000012850246132}
   _sp_choose: {fileID: 114000011623149746}
   UID: 0
+  isChoose: 0
+  _cardNumb: 0

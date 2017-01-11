@@ -16,5 +16,6 @@ public class NetworkLobbyHook : LobbyHook
         player.playerName = lobby.playerName;
         player.color = lobby.playerColor;
         player.IconIndex = NetworkGameMgr.IconIndex;
+        player.UID = NetworkGameMgr.IconIndex-1;
     }
 }
