@@ -64,10 +64,15 @@ public class CardsMgr : NetworkBehaviour
         //洗牌
         ShuffleCommand ShuffleCommand = new ShuffleCommand(this);
         ShuffleCommand.Execute();
+    }
 
+    public void CreateFirstCard()
+    {
         //创建首牌
         CardStruct firstCard = GetCards(1)[0];
         LastCard = firstCard;
+        //牌桌上显示第一张牌
+        Rpc_UpdateCardToTable();
     }
 
     /// <summary>
@@ -95,5 +100,11 @@ public class CardsMgr : NetworkBehaviour
     public void Rpc_UpdateCardNumbers()
     {
         NetworkGameMgr.Instance.MyUIMain.UpdateCardsNumber(OpenCardList.Count, CloseCardList.Count);
+    }
+
+    [ClientRpc]
+    public void Rpc_UpdateCardToTable()
+    {
+        NetworkGameMgr.Instance.MyUIMain._UICardsTable.PlayCard(LastCard);
     }
 }

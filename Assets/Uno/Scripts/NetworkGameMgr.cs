@@ -25,6 +25,8 @@ public class NetworkGameMgr : NetworkBehaviour
 
     static NetworkGameMgr m_Instance = null;
 
+    public static int IconIndex = 0;
+
     public CardsMgr MyCardsMgr
     {
         get
@@ -66,8 +68,6 @@ public class NetworkGameMgr : NetworkBehaviour
         if(isServer)
         {
             InitWithServer();
-
-            Debug.Log("InitWithServer");
         }
 
         if (isLocalPlayer)
@@ -77,22 +77,46 @@ public class NetworkGameMgr : NetworkBehaviour
             MyUIMain.SetActiveDealBtn(isServer);
         }
 
-        StartCoroutine(InitUIPlayers());
+        InitUIPlayers();
     }
 
-    IEnumerator InitUIPlayers()
+    public override void OnStartClient()
     {
-        yield return new WaitForSeconds(1f);
+        base.OnStartClient();
 
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+    }
+
+
+    void InitUIPlayers()
+    {
         Debug.Log("NetworkGameMgr._players.Count ： " + _players.Count);
 
         for (int i = 0; i < _players.Count; i++)
         {
             Player player = _players[i];
-            player.IconIndex = i + 1;
             player.Init();
-            
-            NetworkServer.Spawn(MyUIMain.InitUIPlayer(player));
+        }
+    }
+
+    void InitPlayerWithServer()
+    {
+        for (int i = 0; i < _players.Count; i++)
+        {
+            Player player = _players[i];
+
+            if (NetworkServer.active)
+                NetworkServer.Spawn(MyUIMain.InitUIPlayer(player));
         }
     }
 
@@ -130,6 +154,8 @@ public class NetworkGameMgr : NetworkBehaviour
 
             player.Rpc_SetCardsNumb(player.HaveCards.Count);
         }
+
+        _cardsMgr.CreateFirstCard();
     }
 
     [Server]

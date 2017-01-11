@@ -43,6 +43,9 @@ public class UIMain : MonoBehaviour {
 
                 Utils.ClientLocalPlayer().CmdPlayCards();
                 SetLabelChooseCards(0);
+            }else
+            {
+                Debug.LogError("Dont play cards");
             }
         };
 
@@ -68,7 +71,7 @@ public class UIMain : MonoBehaviour {
 
     public GameObject InitUIPlayer(Player player)
     {
-        GameObject go = GameObject.Instantiate(_UIPlayer.gameObject) as GameObject;
+        GameObject go = Instantiate(_UIPlayer.gameObject) as GameObject;
         if(go!=null)
         {
             go.SetActive(true);

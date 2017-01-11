@@ -25,6 +25,7 @@ public class Player : NetworkBehaviour
     public SyncListCardItem AddCards = new SyncListCardItem();      //增加卡牌
     public SyncListCardItem PlayCards = new SyncListCardItem();     //打出卡牌
     
+    [SyncVar]
     public int IconIndex = 0;//用于头像显示
 
     public bool IsLastOne
@@ -50,7 +51,24 @@ public class Player : NetworkBehaviour
 
 	// Use this for initialization
 	void Start () {
-        
+        if (isLocalPlayer)
+        {
+            MyUIMain.Init();
+
+            MyUIMain.SetActiveDealBtn(isServer);
+        }
+
+        if (MyUIPlayer == null) MyUIPlayer = gameObject.GetComponent<UIPlayer>();
+
+        MyUIMain._playerGrid.AddChild(transform);
+        transform.localScale = Vector3.one;
+        MyUIPlayer.Init(playerName, IconIndex.ToString());
+        MyUIMain._playerGrid.Reposition();
+
+        if (NetworkGameManager.sInstance != null)
+        {//we MAY be awake late (see comment on _wasInit above), so if the instance is already there we init
+            Init();
+        }
     }
 
     public void Init()
@@ -60,12 +78,28 @@ public class Player : NetworkBehaviour
 
         _wasInit = true;
 
-        if(isLocalPlayer)
-        {
-            MyUIMain.Init();
+        //MyUIPlayer.Init(playerName, IconIndex.ToString());
 
-            MyUIMain.SetActiveDealBtn(isServer);
+    }
+
+    [ClientRpc]
+    public void Rpc_CreateUIPlayer()
+    {
+        GameObject go = Instantiate(MyUIPlayer.gameObject) as GameObject;
+        if (go != null)
+        {
+            go.SetActive(true);
+            MyUIMain._playerGrid.AddChild(go.transform);
+            go.transform.localScale = Vector3.one;
+
+            MyUIMain._playerGrid.Reposition();
         }
+    }
+
+    [ClientRpc]
+    public void Rpc_InitUIPlayer()
+    {
+        MyUIMain.InitUIPlayer(this);
     }
 
     [ClientRpc]
@@ -77,6 +111,8 @@ public class Player : NetworkBehaviour
 
             MyUIMain.SetActiveDealBtn(isServer);
         }
+
+        //MyUIMain.InitUIPlayer(this);
     }
 
     [Server]
@@ -108,7 +144,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void Rpc_SetCardsNumb(uint value)
     {
-        MyUIPlayer.SetCardsNumb(value);
+        if(MyUIPlayer!=null)MyUIPlayer.SetCardsNumb(value);
     }
 
     UIMain _UIMain = null;
@@ -154,12 +190,17 @@ public class Player : NetworkBehaviour
                     {
                         HaveCards.RemoveAt(j);
                         NetworkGameMgr.Instance.MyCardsMgr.CloseCardList.Add(playCard);
+
+                        //更新上一张牌
+                        NetworkGameMgr.Instance.MyCardsMgr.LastCard = playCard;
                     }
                 }
             }
             //更新卡牌显示
             Rpc_SetCardsNumb(HaveCards.Count);
             NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardNumbers();
+            //更新牌桌上的显示
+            NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardToTable();
         }
     }
 

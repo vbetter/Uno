@@ -52,6 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f7afe931dcdff74a9cd32def573a81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyUIPlayer: {fileID: 114000013480526790, guid: 66e777468c64a8441bfe23db6f97f12b,
+    type: 2}
+  playerName: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  IconIndex: 0
 --- !u!114 &114000011788668038
 MonoBehaviour:
   m_ObjectHideFlags: 1
