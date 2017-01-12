@@ -70,7 +70,7 @@ public class CardsMgr : NetworkBehaviour
         LastCard = firstCard;
         LastCard.HasEffect = false;
         //牌桌上显示第一张牌
-        Rpc_UpdateCardToTable();
+        Rpc_UpdateCardToTable(LastCard);
     }
 
     /// <summary>
@@ -172,8 +172,8 @@ public class CardsMgr : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void Rpc_UpdateCardToTable()
+    public void Rpc_UpdateCardToTable(CardStruct playCard)
     {
-        NetworkGameMgr.Instance.MyUIMain._UICardsTable.PlayCard(LastCard);
+        NetworkGameMgr.Instance.MyUIMain._UICardsTable.PlayCard(playCard);
     }
 }

@@ -23,8 +23,11 @@ public class UIMain : MonoBehaviour {
     [SerializeField]
     UILabel _label_allCards,_label_removeCards;//牌库总数，打出牌总数
 
-	// Use this for initialization
-	void Start () {
+    [SerializeField]
+    UILabel _label_ClockWise;//顺时针
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 

@@ -163,7 +163,13 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdPlayCards()
     {
-        if(PlayCards.Count>0)
+        ServerPlayCards();
+    }
+
+    [Server]
+    void ServerPlayCards()
+    {
+        if (PlayCards.Count > 0)
         {
             for (int i = 0; i < PlayCards.Count; i++)
             {
@@ -172,29 +178,25 @@ public class Player : NetworkBehaviour
                 for (int j = 0; j < HaveCards.Count; j++)
                 {
                     CardStruct playCard = HaveCards[j];
-                    if(playCard.UID == card.UID)
+                    if (playCard.UID == card.UID)
                     {
                         HaveCards.RemoveAt(j);
 
                         NetworkGameMgr.Instance.PlayCard(playCard);
+
+                        //更新牌桌上的显示
+                        NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardToTable(playCard);
                     }
                 }
             }
-            ServerPlayCards();
+            //更新卡牌显示
+            Rpc_SetCardsNumb(HaveCards.Count);
+
+            NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardNumbers();
+
+            //更新下一个可行动的玩家
+            NetworkGameMgr.Instance.UpdateCurPlayerIndex();
         }
-    }
-
-    [Server]
-    void ServerPlayCards()
-    {
-        //更新卡牌显示
-        Rpc_SetCardsNumb(HaveCards.Count);
-
-        NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardNumbers();
-        //更新牌桌上的显示
-        NetworkGameMgr.Instance.MyCardsMgr.Rpc_UpdateCardToTable();
-        //更新下一个可行动的玩家
-        NetworkGameMgr.Instance.UpdateCurPlayerIndex();
     }
 
     public void AddCard_toPlayCards(CardStruct card)
